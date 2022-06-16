@@ -11,6 +11,7 @@ import conveyor.util.RejectScoringException;
 import conveyor.util.ScoringDataValidator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,23 +28,24 @@ import java.util.List;
 @RequestMapping("/conveyor")
 @Api(value = "credit conveyor controller")
 @Slf4j
+@NoArgsConstructor
 
 public class ConveyorController {
 
-    @Autowired
     private LoanApplicationRequestValidator loanApplicationRequestValidator;
-
-    @Autowired
     private ScoringDataValidator scoringDataValidator;
-
-    @Autowired
     private CreationLoanOffersService creationLoanOffersService;
-
-    @Autowired
     private ScoringService scoringService;
+    private CalculatingCreditParametersService calculatingCreditParametersService;
 
     @Autowired
-    private CalculatingCreditParametersService calculatingCreditParametersService;
+    public ConveyorController(LoanApplicationRequestValidator loanApplicationRequestValidator, ScoringDataValidator scoringDataValidator, CreationLoanOffersService creationLoanOffersService, ScoringService scoringService, CalculatingCreditParametersService calculatingCreditParametersService) {
+        this.loanApplicationRequestValidator = loanApplicationRequestValidator;
+        this.scoringDataValidator = scoringDataValidator;
+        this.creationLoanOffersService = creationLoanOffersService;
+        this.scoringService = scoringService;
+        this.calculatingCreditParametersService = calculatingCreditParametersService;
+    }
 
     @PostMapping("/offers")
     @ApiOperation(value = "calculate four loan offers")

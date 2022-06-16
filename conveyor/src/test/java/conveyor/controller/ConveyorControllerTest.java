@@ -2,10 +2,10 @@ package conveyor.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import conveyor.dto.*;
-import conveyor.entity.EmploymentPosition;
-import conveyor.entity.EmploymentStatus;
-import conveyor.entity.Gender;
-import conveyor.entity.MaritalStatus;
+import conveyor.dto.EmploymentPosition;
+import conveyor.dto.EmploymentStatus;
+import conveyor.dto.Gender;
+import conveyor.dto.MaritalStatus;
 import conveyor.service.CalculatingCreditParametersService;
 import conveyor.service.CreationLoanOffersService;
 import conveyor.service.ScoringService;

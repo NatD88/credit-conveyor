@@ -2,6 +2,8 @@ package conveyor.service;
 
 import conveyor.dto.LoanApplicationRequestDTO;
 import conveyor.dto.LoanOfferDTO;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -14,12 +16,13 @@ import java.util.*;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
+
 public class CreationLoanOffersService {
     public static final int INSURANCE_PRICE = 15000;
     public static Long OFFERS_COUNT = 0L;
 
-    @Autowired
-    private Environment env;
+    private final Environment env;
 
     public List<LoanOfferDTO> createLoanOffersList(LoanApplicationRequestDTO loanApplicationRequestDTO) {
         log.info("start of creating the list of loan offers");
@@ -67,13 +70,6 @@ public class CreationLoanOffersService {
 
         BigDecimal baseRate = new BigDecimal(Integer.parseInt(Objects.requireNonNull(env.getProperty("baseRate"))));
 
-        LoanOfferDTO loanOfferDTO = new LoanOfferDTO();
-        loanOfferDTO.setApplicationId(++OFFERS_COUNT);
-        loanOfferDTO.setRequestedAmount(loanApplicationRequestDTO.getAmount());
-        loanOfferDTO.setTerm(loanApplicationRequestDTO.getTerm());
-        loanOfferDTO.setIsInsuranceEnabled(isInsuranceEnabled);
-        loanOfferDTO.setIsSalaryClient(isSalaryClient);
-
         BigDecimal rate = baseRate;
         BigDecimal creditAmount = loanApplicationRequestDTO.getAmount();
 
@@ -84,18 +80,27 @@ public class CreationLoanOffersService {
         if (isSalaryClient) {
             rate = rate.subtract(new BigDecimal(1));
         }
-        loanOfferDTO.setRate(rate);
+
         log.info("rate calculated as {}", rate);
 
         BigDecimal monthlyPayment = calcMonthlyPayment(rate, loanApplicationRequestDTO.getTerm(), creditAmount);
         log.info("monthlyPayment calculated as {}", monthlyPayment);
-        loanOfferDTO.setMonthlyPayment(monthlyPayment);
 
         BigDecimal totalAmount = monthlyPayment.multiply(new BigDecimal(loanApplicationRequestDTO.getTerm()));
         log.info("totalAmount calculated as {}", totalAmount);
-        loanOfferDTO.setTotalAmount(totalAmount);
 
-        log.info("the loan offer created");
+        LoanOfferDTO loanOfferDTO = LoanOfferDTO.builder()
+                .applicationId(++OFFERS_COUNT)
+                .requestedAmount(loanApplicationRequestDTO.getAmount())
+                .term(loanApplicationRequestDTO.getTerm())
+                .isInsuranceEnabled(isInsuranceEnabled)
+                .isSalaryClient(isSalaryClient)
+                .rate(rate)
+                .monthlyPayment(monthlyPayment)
+                .totalAmount(totalAmount)
+                .build();
+
+                log.info("the loan offer created");
         return loanOfferDTO;
     }
 

@@ -18,13 +18,9 @@ import java.util.List;
 @Slf4j
 public class CalculatingCreditParametersService {
 
-    public CreditDTO createCreditDTO(ScoringDataDTO scoringDataDTO, BigDecimal rate) {
-        log.info("start of creating ScoringDataDTO");
+    public void validateScoringDataDTO(ScoringDataDTO scoringDataDTO) {
         if (scoringDataDTO == null) {
             throw new RuntimeException("scoringDataDTO is null!");
-        }
-        if (rate == null) {
-            throw new RuntimeException("rate is null!");
         }
         if (scoringDataDTO.getIsInsuranceEnabled() == null) {
             throw new RuntimeException("isInsuranceEnabled in scoringDataDTO is null!");
@@ -38,29 +34,40 @@ public class CalculatingCreditParametersService {
         if (scoringDataDTO.getTerm() == null) {
             throw new RuntimeException("term in scoringDataDTO is null!");
         }
+    }
 
-        CreditDTO creditDTO = new CreditDTO();
-        creditDTO.setAmount(scoringDataDTO.getAmount());
-        creditDTO.setTerm(scoringDataDTO.getTerm());
-        creditDTO.setRate(rate);
-        creditDTO.setIsInsuranceEnabled(scoringDataDTO.getIsInsuranceEnabled());
-        creditDTO.setIsSalaryClient(scoringDataDTO.getIsSalaryClient());
+    public CreditDTO createCreditDTO(ScoringDataDTO scoringDataDTO, BigDecimal rate) {
+        log.info("start of creating ScoringDataDTO");
+
+        validateScoringDataDTO(scoringDataDTO);
+        if (rate == null) {
+            throw new RuntimeException("rate is null!");
+        }
 
         BigDecimal creditAmount = scoringDataDTO.getAmount();
         log.info("creditAmount calculated as {}", creditAmount);
 
         BigDecimal monthlyPayment = CreationLoanOffersService.calcMonthlyPayment(rate, scoringDataDTO.getTerm(), creditAmount);
         log.info("monthlyPayment calculated as {}", monthlyPayment);
-        creditDTO.setMonthlyPayment(monthlyPayment);
+
         List<PaymentScheduleElement> paymentScheduleElementList = createPaymentSchedule(creditAmount, scoringDataDTO.getTerm(), rate, monthlyPayment);
-        creditDTO.setPaymentSchedule(paymentScheduleElementList);
 
         if (scoringDataDTO.getIsInsuranceEnabled()) {
             creditAmount = creditAmount.subtract(new BigDecimal(CreationLoanOffersService.INSURANCE_PRICE));
         }
 
         BigDecimal psk = calcPsk(paymentScheduleElementList, creditAmount);
-        creditDTO.setPsk(psk);
+
+        CreditDTO creditDTO = CreditDTO.builder()
+                .amount(scoringDataDTO.getAmount())
+                .term(scoringDataDTO.getTerm())
+                .rate(rate)
+                .isInsuranceEnabled(scoringDataDTO.getIsInsuranceEnabled())
+                .isSalaryClient(scoringDataDTO.getIsSalaryClient())
+                .monthlyPayment(monthlyPayment)
+                .paymentSchedule(paymentScheduleElementList)
+                .psk(psk)
+                .build();
 
         log.info("ScoringDataDTO created");
         return creditDTO;
@@ -83,21 +90,23 @@ public class CalculatingCreditParametersService {
         BigDecimal remainingDebt = creditAmount;
 
         for (int i = 1; i <= term; i++) {
-            PaymentScheduleElement paymentScheduleElement = new PaymentScheduleElement();
-            paymentScheduleElement.setNumber(i);
             LocalDate paymentDate = LocalDate.now().plusMonths(i);
-            paymentScheduleElement.setDate(paymentDate);
 
             BigDecimal interestPayment = remainingDebt.multiply(rate).multiply(new BigDecimal(paymentDate.lengthOfMonth()))
                     .divide(new BigDecimal(paymentDate.lengthOfYear()), 3, RoundingMode.HALF_UP)
                     .divide(new BigDecimal(100), 3, RoundingMode.HALF_UP);
 
-            paymentScheduleElement.setInterestPayment(interestPayment);
             BigDecimal debtPayment = monthlyPayment.subtract(interestPayment);
-            paymentScheduleElement.setDebtPayment(debtPayment);
-            paymentScheduleElement.setTotalPayment(monthlyPayment);
             remainingDebt = remainingDebt.subtract(debtPayment);
-            paymentScheduleElement.setRemainingDebt(remainingDebt);
+
+            PaymentScheduleElement paymentScheduleElement = PaymentScheduleElement.builder()
+                    .number(i)
+                    .date(paymentDate)
+                    .interestPayment(interestPayment)
+                    .debtPayment(debtPayment)
+                    .totalPayment(monthlyPayment)
+                    .remainingDebt(remainingDebt)
+                    .build();
 
             paymentScheduleElementList.add(paymentScheduleElement);
             log.info("one payment added to payment schedule. options: number: {}, paymentDate: {}, interestPayment: {},debtPayment: {}," +
@@ -149,8 +158,6 @@ public class CalculatingCreditParametersService {
         log.info("the number of days from the moment the loan is issued to each payment added to separate list. " +
                 "daysSinceDeliveryToEachPayment: {} ", daysSinceDeliveryToEachPayment);
 
-        // eList = mod[ (ДПк-ДП1) /БП ]/БП
-        // qList — the number of full base periods from the moment the loan is issued to the k-th cash flow. Qк=floor[ (ДПк-ДП1)/БП ],
         List<BigDecimal> eList = new ArrayList<>();
         List<BigDecimal> qList = new ArrayList<>();
         for (int k = 0; k <= paymentScheduleElementList.size(); k++) {
@@ -161,11 +168,10 @@ public class CalculatingCreditParametersService {
         log.info("eList created in accordance with the law \"353-ФЗ\". eList: {}  ", eList);
         log.info("qList created in accordance with the law \"353-ФЗ\". qList: {}  ", qList);
 
-        // accuracy - calculation accuracy
         BigDecimal accuracy = new BigDecimal("0.00001");
 
         BigDecimal sum = new BigDecimal(1);
-        // i - the smallest positive solution to the equation from "353-ФЗ"
+
         BigDecimal i = new BigDecimal(0);
 
         while (sum.doubleValue() > 0) {

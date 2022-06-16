@@ -3,10 +3,10 @@ package conveyor.util;
 import conveyor.dto.EmploymentDTO;
 import conveyor.dto.LoanApplicationRequestDTO;
 import conveyor.dto.ScoringDataDTO;
-import conveyor.entity.EmploymentPosition;
-import conveyor.entity.EmploymentStatus;
-import conveyor.entity.Gender;
-import conveyor.entity.MaritalStatus;
+import conveyor.dto.EmploymentPosition;
+import conveyor.dto.EmploymentStatus;
+import conveyor.dto.Gender;
+import conveyor.dto.MaritalStatus;
 import org.mockito.Mockito;
 
 import java.math.BigDecimal;

@@ -1,7 +1,5 @@
 package conveyor.dto;
 
-import conveyor.entity.EmploymentPosition;
-import conveyor.entity.EmploymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

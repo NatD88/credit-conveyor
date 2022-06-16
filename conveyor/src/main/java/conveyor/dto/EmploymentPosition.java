@@ -1,4 +1,4 @@
-package conveyor.entity;
+package conveyor.dto;
 
 public enum EmploymentPosition {
     MIDDLE_MANAGER,

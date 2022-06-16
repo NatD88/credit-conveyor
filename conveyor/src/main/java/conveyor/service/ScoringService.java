@@ -1,10 +1,10 @@
 package conveyor.service;
 
 import conveyor.dto.ScoringDataDTO;
-import conveyor.entity.EmploymentPosition;
-import conveyor.entity.EmploymentStatus;
-import conveyor.entity.Gender;
-import conveyor.entity.MaritalStatus;
+import conveyor.dto.EmploymentPosition;
+import conveyor.dto.EmploymentStatus;
+import conveyor.dto.Gender;
+import conveyor.dto.MaritalStatus;
 import conveyor.util.BooleanAndRate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

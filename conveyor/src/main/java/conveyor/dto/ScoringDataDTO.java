@@ -1,8 +1,6 @@
 package conveyor.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import conveyor.entity.Gender;
-import conveyor.entity.MaritalStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

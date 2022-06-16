@@ -2,8 +2,8 @@ package conveyor.service;
 
 import conveyor.dto.EmploymentDTO;
 import conveyor.dto.ScoringDataDTO;
-import conveyor.entity.EmploymentStatus;
-import conveyor.entity.MaritalStatus;
+import conveyor.dto.EmploymentStatus;
+import conveyor.dto.MaritalStatus;
 import conveyor.util.BooleanAndRate;
 import conveyor.util.CreateAndInitTestDTOs;
 import org.junit.jupiter.api.BeforeEach;
