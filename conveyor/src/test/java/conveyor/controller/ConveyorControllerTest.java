@@ -170,14 +170,14 @@ class ConveyorControllerTest {
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(scoringService, Mockito.times(1)).executeScoring(Mockito.any());
-        Mockito.verify(calculatingCreditParametersService, Mockito.times(1)).createCreditDTO(Mockito.any(),Mockito.any());
+        Mockito.verify(calculatingCreditParametersService, Mockito.times(1)).createCreditDTO(Mockito.any(), Mockito.any());
 
     }
 
     @Test
     void handleRejectScoringException() {
-        ConveyorController conveyorController = new ConveyorController();
-        ResponseEntity<String> response =  conveyorController.handleRejectScoringException(new RejectScoringException());
+        ConveyorController conveyorController = new ConveyorController(loanApplicationRequestValidator, scoringDataValidator, creationLoanOffersService, scoringService, calculatingCreditParametersService);
+        ResponseEntity<String> response = conveyorController.handleRejectScoringException(new RejectScoringException());
         assertEquals("Отказано в выдаче кредита!!", response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }

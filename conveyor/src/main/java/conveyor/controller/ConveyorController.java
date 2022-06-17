@@ -12,6 +12,7 @@ import conveyor.util.ScoringDataValidator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,24 +29,15 @@ import java.util.List;
 @RequestMapping("/conveyor")
 @Api(value = "credit conveyor controller")
 @Slf4j
-@NoArgsConstructor
+@RequiredArgsConstructor
 
 public class ConveyorController {
 
-    private LoanApplicationRequestValidator loanApplicationRequestValidator;
-    private ScoringDataValidator scoringDataValidator;
-    private CreationLoanOffersService creationLoanOffersService;
-    private ScoringService scoringService;
-    private CalculatingCreditParametersService calculatingCreditParametersService;
-
-    @Autowired
-    public ConveyorController(LoanApplicationRequestValidator loanApplicationRequestValidator, ScoringDataValidator scoringDataValidator, CreationLoanOffersService creationLoanOffersService, ScoringService scoringService, CalculatingCreditParametersService calculatingCreditParametersService) {
-        this.loanApplicationRequestValidator = loanApplicationRequestValidator;
-        this.scoringDataValidator = scoringDataValidator;
-        this.creationLoanOffersService = creationLoanOffersService;
-        this.scoringService = scoringService;
-        this.calculatingCreditParametersService = calculatingCreditParametersService;
-    }
+    private final LoanApplicationRequestValidator loanApplicationRequestValidator;
+    private final ScoringDataValidator scoringDataValidator;
+    private final CreationLoanOffersService creationLoanOffersService;
+    private final ScoringService scoringService;
+    private final CalculatingCreditParametersService calculatingCreditParametersService;
 
     @PostMapping("/offers")
     @ApiOperation(value = "calculate four loan offers")
