@@ -1,8 +1,8 @@
 package conveyor.dto;
 
 public enum EmploymentPosition {
-    MIDDLE_MANAGER,
+    WORKER,
+    MID_MANAGER,
     TOP_MANAGER,
-    OFFICE_WORKER,
-    OFFICIAL,
+    OWNER
 }

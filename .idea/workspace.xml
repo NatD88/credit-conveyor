@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="52163860-211d-4114-b1fa-62992ee1f833" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/ConveyorApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/ConveyorApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/dto/EmploymentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/dto/EmploymentDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/dto/EmploymentPosition.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/dto/EmploymentPosition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/dto/EmploymentStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/dto/EmploymentStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/dto/MaritalStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/dto/MaritalStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/dto/ScoringDataDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/dto/ScoringDataDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/service/CalculatingCreditParametersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/service/CalculatingCreditParametersService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/service/ScoringService.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/service/ScoringService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/controller/ConveyorControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/controller/ConveyorControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/service/CalculatingCreditParametersServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/service/CalculatingCreditParametersServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/util/CreateAndInitTestDTOs.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/util/CreateAndInitTestDTOs.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2BCn140k8xoxXXHJo7UcalfogmA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="52163860-211d-4114-b1fa-62992ee1f833" name="Changes" comment="" />
+      <created>1656418721837</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1656418721837</updated>
+      <workItem from="1656418724792" duration="5000" />
+    </task>
+    <servers />
+  </component>
+</project>
