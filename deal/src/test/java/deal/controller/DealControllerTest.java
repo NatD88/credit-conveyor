@@ -2,23 +2,17 @@ package deal.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import conveyor.controller.ConveyorController;
 import conveyor.dto.*;
-import conveyor.util.RejectScoringException;
 import deal.dto.FinishRegistrationRequestDTO;
 import deal.entity.ClientApplication;
-import deal.service.ConveyorService;
 import deal.service.DealService;
+import deal.service.FeignServiceConveyor;
 import deal.util.ApplicationNotFoundException;
 import deal.util.BadRequestException;
 import deal.util.RejectScoringDealException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -52,7 +45,7 @@ class DealControllerTest {
     @MockBean
     private DealService dealService;
     @MockBean
-    private ConveyorService conveyorService;
+    private FeignServiceConveyor feignServiceConveyor;
 
     LoanApplicationRequestDTO loanApplicationRequestDTO = new LoanApplicationRequestDTO(new BigDecimal(15000),
             6,
@@ -90,7 +83,7 @@ class DealControllerTest {
         }
         ResponseEntity<List<LoanOfferDTO>> responseEntity = new ResponseEntity<>(loanOfferDTOS, HttpStatus.OK);
 
-        Mockito.when(conveyorService.getLoanOfferDTOList(Mockito.any())).thenReturn(responseEntity);
+        Mockito.when(feignServiceConveyor.getLoanOffers(Mockito.any())).thenReturn(responseEntity);
 
         MockHttpServletRequestBuilder mockRequest =
                 MockMvcRequestBuilders.
@@ -102,11 +95,20 @@ class DealControllerTest {
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk());
 
-        Mockito.verify(conveyorService, Mockito.times(1)).getLoanOfferDTOList(Mockito.any());
+        Mockito.verify(feignServiceConveyor, Mockito.times(1)).getLoanOffers(Mockito.any());
     }
 
     @Test
-    void processingLoanOfferDTO() {
+    void processingLoanOfferDTO() throws Exception {
+        MockHttpServletRequestBuilder mockRequest =
+                MockMvcRequestBuilders.
+                        put("/deal/offer")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(this.mapper.writeValueAsString(loanOfferDTO));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -119,8 +121,9 @@ class DealControllerTest {
 
         Mockito.when(dealService.updateDB(Mockito.any(), Mockito.eq(55L))).thenReturn(clientApplication);
         Mockito.when(dealService.createScoringDataDTO(Mockito.any())).thenReturn(scoringDataDTO);
+
         ResponseEntity<CreditDTO> responseEntity = new ResponseEntity<>(new CreditDTO(), HttpStatus.OK);
-        Mockito.when(conveyorService.getCreditDTO(Mockito.any(), Mockito.any())).thenReturn(responseEntity);
+        Mockito.when(feignServiceConveyor.getCreditDTO(Mockito.any(), Mockito.any())).thenReturn(responseEntity);
 
         MockHttpServletRequestBuilder mockRequest =
                 MockMvcRequestBuilders.
@@ -135,8 +138,8 @@ class DealControllerTest {
 
     @Test
     void handleBadRequestException() {
-        DealController dealController = new DealController(dealService, conveyorService);
-        Map<String, String> testMap = new HashMap<>();
+        DealController dealController = new DealController(dealService, feignServiceConveyor);
+        Map<Object, Object> testMap = new HashMap<>();
         testMap.put("passport", "incorrect passport value");
         ResponseEntity<Object> response = dealController.handleBadRequestException(new BadRequestException(testMap));
         assertEquals((Map) testMap, response.getBody());
@@ -145,17 +148,19 @@ class DealControllerTest {
 
     @Test
     void handleApplicationNotFoundException() {
-        DealController dealController = new DealController(dealService, conveyorService);
+        DealController dealController = new DealController(dealService, feignServiceConveyor);
         ResponseEntity<Object> response = dealController.handleApplicationNotFoundException(new ApplicationNotFoundException(55L));
         assertEquals("Заявка с номером 55 не найдена в базе!", response.getBody());
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
+
     void handleRejectScoringDealException() {
-        DealController dealController = new DealController(dealService, conveyorService);
+        DealController dealController = new DealController(dealService, feignServiceConveyor);
         ResponseEntity<String> response = dealController.handleRejectScoringDealException(new RejectScoringDealException("\"Отказано в выдаче кредита!!\"", 1L));
         assertEquals("Отказано в выдаче кредита!!", response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
 }

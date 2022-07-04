@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS CLIENTS (
                                        DEPENDENT_AMOUNT INTEGER,
                                        PASSPORT_ID INTEGER,
                                        EMPLOYMENT_ID INTEGER,
-                                       ACCOUNT VARCHAR(20),
+                                       ACCOUNT VARCHAR(200),
                                        FOREIGN KEY(PASSPORT_ID) REFERENCES PASSPORTS(PASSPORT_ID),
                                        FOREIGN KEY (EMPLOYMENT_ID) REFERENCES EMPLOYMENTS(EMPLOYMENT_ID));
 

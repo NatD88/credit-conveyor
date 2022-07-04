@@ -7,7 +7,7 @@ import conveyor.dto.ScoringDataDTO;
 import deal.dto.FinishRegistrationRequestDTO;
 import deal.entity.ClientApplication;
 import deal.service.DealService;
-import deal.service.ConveyorService;
+import deal.service.FeignServiceConveyor;
 import deal.util.ApplicationNotFoundException;
 import deal.util.BadRequestException;
 import deal.util.RejectScoringDealException;
@@ -29,24 +29,23 @@ import java.util.List;
 public class DealController {
 
     private final DealService dealService;
-    private final ConveyorService conveyorService;
+    private final FeignServiceConveyor feignServiceConveyor;
 
     @PostMapping("/application")
     @ApiOperation(value = "get four loan offers from ms conveyor and save Client and Application to DB")
     public ResponseEntity<List<LoanOfferDTO>> getPossibleCreditConditions(
             @RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO) {
-    log.info("LoanApplicationRequestDTO entered to /deal/application");
-        ResponseEntity<List<LoanOfferDTO>> responseEntity = conveyorService.getLoanOfferDTOList(loanApplicationRequestDTO);
-    log.info("ResponseEntity<List<LoanOfferDTO>> received to DealController" );
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            Long applicationID = dealService.saveClientAndApplication(loanApplicationRequestDTO);
-            log.info("client and application saved, applicationID received, applicationID: {}", applicationID);
-            List<LoanOfferDTO> loanOfferDTOList = responseEntity.getBody();
-            log.info("List<LoanOfferDTO> loanOfferDTOList: {}", loanOfferDTOList);
-            return new ResponseEntity<>(dealService.setApplicationIDToLoanOffers(applicationID,
-                    loanOfferDTOList), HttpStatus.OK);
-        }
-        else throw new RuntimeException("error response from ms conveyor");
+        log.info("LoanApplicationRequestDTO entered to /deal/application");
+
+        ResponseEntity<List<LoanOfferDTO>> responseEntity = feignServiceConveyor.getLoanOffers(loanApplicationRequestDTO);
+
+        Long applicationID = dealService.saveClientAndApplication(loanApplicationRequestDTO);
+        log.info("client and application saved, applicationID received, applicationID: {}", applicationID);
+        List<LoanOfferDTO> loanOfferDTOList = responseEntity.getBody();
+        log.info("List<LoanOfferDTO> loanOfferDTOList: {}", loanOfferDTOList);
+        return new ResponseEntity<>(dealService.setApplicationIDToLoanOffers(applicationID,
+                loanOfferDTOList), HttpStatus.OK);
+
     }
 
     @PutMapping("/offer")
@@ -57,10 +56,10 @@ public class DealController {
         log.info("loanOfferDTO saved to DB");
     }
 
-    @PutMapping("/calculate/{applicationId}")
+    @PutMapping("/calculate/{applicationID}")
     @ApiOperation("create ScoringFataDTO, update info in DB (tables Clients, Applications, Passports), send request to ms conveyor")
-    public ResponseEntity<CreditDTO> processingFinishRegistrationRequestDTO(FinishRegistrationRequestDTO finishRegistrationRequestDTO,
-                                                                            Long applicationID) {
+    public void processingFinishRegistrationRequestDTO(FinishRegistrationRequestDTO finishRegistrationRequestDTO,
+                                                                            @PathVariable Long applicationID) {
 
         log.info("FinishRegistrationRequestDTO entered  /deal/calculate/{applicationId}. finishRegistrationRequestDTO: {}", finishRegistrationRequestDTO);
         log.info("applicationID entered deal/calculate/{applicationId}. applicationID: {}", applicationID);
@@ -70,16 +69,11 @@ public class DealController {
         log.info("scoringDataDTO created: {}  ", scoringDataDTO);
         dealService.checkApplicationStatus(applicationID);
         log.info("ApplicationStatus checked and corrected in case of previous validate error");
-        ResponseEntity<CreditDTO> responseEntity = conveyorService.getCreditDTO(scoringDataDTO, applicationID);
-        log.info("ResponseEntity<CreditDTO> received to DealController");
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            dealService.saveCredit(responseEntity.getBody(), applicationID);
-            return responseEntity;
 
-        } else {
-            log.warn("response from ms conveyor has status not 200");
-            throw new RuntimeException("error response from ms conveyor");
-        }
+        ResponseEntity<CreditDTO> responseEntity = feignServiceConveyor.getCreditDTO(scoringDataDTO, applicationID);
+        log.info("ResponseEntity<CreditDTO> received to DealController");
+        dealService.saveCredit(responseEntity.getBody(), applicationID);
+
     }
 
     @ExceptionHandler(BadRequestException.class)
