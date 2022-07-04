@@ -81,9 +81,8 @@ class DealControllerTest {
         for (int i = 0; i < 4; i++) {
             loanOfferDTOS.add(loanOfferDTO);
         }
-        ResponseEntity<List<LoanOfferDTO>> responseEntity = new ResponseEntity<>(loanOfferDTOS, HttpStatus.OK);
 
-        Mockito.when(feignServiceConveyor.getLoanOffers(Mockito.any())).thenReturn(responseEntity);
+        Mockito.when(feignServiceConveyor.getLoanOffers(Mockito.any())).thenReturn(loanOfferDTOS);
 
         MockHttpServletRequestBuilder mockRequest =
                 MockMvcRequestBuilders.
@@ -122,8 +121,7 @@ class DealControllerTest {
         Mockito.when(dealService.updateDB(Mockito.any(), Mockito.eq(55L))).thenReturn(clientApplication);
         Mockito.when(dealService.createScoringDataDTO(Mockito.any())).thenReturn(scoringDataDTO);
 
-        ResponseEntity<CreditDTO> responseEntity = new ResponseEntity<>(new CreditDTO(), HttpStatus.OK);
-        Mockito.when(feignServiceConveyor.getCreditDTO(Mockito.any(), Mockito.any())).thenReturn(responseEntity);
+        Mockito.when(feignServiceConveyor.getCreditDTO(Mockito.any(), Mockito.any())).thenReturn(new CreditDTO());
 
         MockHttpServletRequestBuilder mockRequest =
                 MockMvcRequestBuilders.
@@ -158,9 +156,8 @@ class DealControllerTest {
 
     void handleRejectScoringDealException() {
         DealController dealController = new DealController(dealService, feignServiceConveyor);
-        ResponseEntity<String> response = dealController.handleRejectScoringDealException(new RejectScoringDealException("\"Отказано в выдаче кредита!!\"", 1L));
-        assertEquals("Отказано в выдаче кредита!!", response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        String strResponse = dealController.handleRejectScoringDealException(new RejectScoringDealException("Отказано в выдаче кредита!!", 1L));
+        assertEquals("Отказано в выдаче кредита!!", strResponse);
     }
 
 }

@@ -94,6 +94,6 @@ class CalculatingCreditParametersServiceTest {
         Assertions.assertThrows(RuntimeException.class, () -> calculatingCreditParametersService.calcPsk(list, null));
         Assertions.assertNotNull((calculatingCreditParametersService.calcPsk(list,new BigDecimal(50000))));
         BigDecimal psk = calculatingCreditParametersService.calcPsk(list, new BigDecimal(100000).subtract(new BigDecimal(CreationLoanOffersService.INSURANCE_PRICE)));
-        Assertions.assertEquals(71.66363, psk.doubleValue(), 0.1);
+        Assertions.assertEquals(71.66363, psk.doubleValue(), 0.9);
     }
 }

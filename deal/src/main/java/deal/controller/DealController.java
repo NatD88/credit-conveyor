@@ -33,18 +33,16 @@ public class DealController {
 
     @PostMapping("/application")
     @ApiOperation(value = "get four loan offers from ms conveyor and save Client and Application to DB")
-    public ResponseEntity<List<LoanOfferDTO>> getPossibleCreditConditions(
+    public List<LoanOfferDTO> getPossibleCreditConditions(
             @RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO) {
         log.info("LoanApplicationRequestDTO entered to /deal/application");
 
-        ResponseEntity<List<LoanOfferDTO>> responseEntity = feignServiceConveyor.getLoanOffers(loanApplicationRequestDTO);
+        List<LoanOfferDTO> loanOfferDTOList = feignServiceConveyor.getLoanOffers(loanApplicationRequestDTO);
 
         Long applicationID = dealService.saveClientAndApplication(loanApplicationRequestDTO);
         log.info("client and application saved, applicationID received, applicationID: {}", applicationID);
-        List<LoanOfferDTO> loanOfferDTOList = responseEntity.getBody();
         log.info("List<LoanOfferDTO> loanOfferDTOList: {}", loanOfferDTOList);
-        return new ResponseEntity<>(dealService.setApplicationIDToLoanOffers(applicationID,
-                loanOfferDTOList), HttpStatus.OK);
+        return dealService.setApplicationIDToLoanOffers(applicationID, loanOfferDTOList);
 
     }
 
@@ -70,10 +68,9 @@ public class DealController {
         dealService.checkApplicationStatus(applicationID);
         log.info("ApplicationStatus checked and corrected in case of previous validate error");
 
-        ResponseEntity<CreditDTO> responseEntity = feignServiceConveyor.getCreditDTO(scoringDataDTO, applicationID);
+       CreditDTO responseCreditDTO = feignServiceConveyor.getCreditDTO(scoringDataDTO, applicationID);
         log.info("ResponseEntity<CreditDTO> received to DealController");
-        dealService.saveCredit(responseEntity.getBody(), applicationID);
-
+        dealService.saveCredit(responseCreditDTO, applicationID);
     }
 
     @ExceptionHandler(BadRequestException.class)
@@ -92,9 +89,9 @@ public class DealController {
     }
 
     @ExceptionHandler(RejectScoringDealException.class)
-    public ResponseEntity<String> handleRejectScoringDealException(RejectScoringDealException e) {
+    public String handleRejectScoringDealException(RejectScoringDealException e) {
         log.warn("handle RejectScoringDealException. the ResponseEntity with denial will return");
-        dealService.denieApplicationStatus(e.applicationID);
-        return new ResponseEntity<>("Отказано в выдаче кредита!!", HttpStatus.OK);
+        dealService.denieApplicationStatus(e.getApplicationID());
+        return e.getRejectMessage();
     }
 }

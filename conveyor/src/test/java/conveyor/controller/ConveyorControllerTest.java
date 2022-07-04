@@ -177,8 +177,8 @@ class ConveyorControllerTest {
     @Test
     void handleRejectScoringException() {
         ConveyorController conveyorController = new ConveyorController(loanApplicationRequestValidator, scoringDataValidator, creationLoanOffersService, scoringService, calculatingCreditParametersService);
-        ResponseEntity<String> response = conveyorController.handleRejectScoringException(new RejectScoringException());
-        assertEquals("Отказано в выдаче кредита!!", response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        String respStr = conveyorController.handleRejectScoringException(new RejectScoringException());
+        assertEquals("Отказано в выдаче кредита!!", respStr);
+
     }
 }

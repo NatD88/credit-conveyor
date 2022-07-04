@@ -19,11 +19,11 @@ import java.util.List;
 public interface FeignClientConveyor {
 
     @RequestMapping(method = RequestMethod.POST, value = "/offers")
-         ResponseEntity<List<LoanOfferDTO>> getLoanOffers(@RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO);
+    List<LoanOfferDTO> getLoanOffers(@RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO);
 
     @RequestMapping(method = RequestMethod.POST, value = "/calculation")
-    ResponseEntity<CreditDTO> getCreditDTO(@RequestBody ScoringDataDTO scoringDataDTO);
+    CreditDTO getCreditDTO(@RequestBody ScoringDataDTO scoringDataDTO);
 
     @RequestMapping(method = RequestMethod.POST, value = "/calculation")
-    ResponseEntity<String> getRejectScoring(@RequestBody ScoringDataDTO scoringDataDTO);
+    String getRejectScoring(@RequestBody ScoringDataDTO scoringDataDTO);
 }

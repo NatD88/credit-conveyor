@@ -1,10 +1,16 @@
 package deal.util;
 
-public class RejectScoringDealException extends RuntimeException {
-    public Long applicationID;
+import lombok.Getter;
+import lombok.Setter;
 
-    public RejectScoringDealException(String message, Long applicationID) {
-        super(message);
+@Getter
+@Setter
+public class RejectScoringDealException extends RuntimeException {
+    private Long applicationID;
+    private String rejectMessage;
+
+    public RejectScoringDealException(String rejectMessage, Long applicationID) {
+        this.rejectMessage = rejectMessage;
         this.applicationID = applicationID;
     }
 }

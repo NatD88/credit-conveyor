@@ -5,33 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52163860-211d-4114-b1fa-62992ee1f833" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deal/logs/spring-boot-logger.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deal/src/main/java/deal/config/FeignClientConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deal/src/main/java/deal/service/FeignServiceConveyor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deal/src/main/java/deal/util/FeignClientConveyor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deal/src/main/java/deal/util/FeignErrorDecoder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deal/src/test/java/deal/service/FeignServiceConveyorTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/archived/spring-boot-logger-2022-07-03.0.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/spring-boot-logger.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/deal/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/DealApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/java/deal/DealApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/controller/ConveyorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/controller/ConveyorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/controller/ConveyorControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/controller/ConveyorControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/service/CalculatingCreditParametersServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/service/CalculatingCreditParametersServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal/logs/spring-boot-logger.log" beforeDir="false" afterPath="$PROJECT_DIR$/deal/logs/spring-boot-logger.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/controller/DealController.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/java/deal/controller/DealController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/controller/ErrorHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/service/ConveyorService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/util/BadRequestException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/java/deal/util/BadRequestException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/resources/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/service/FeignServiceConveyor.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/java/deal/service/FeignServiceConveyor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/util/FeignClientConveyor.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/java/deal/util/FeignClientConveyor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/util/RejectScoringDealException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/java/deal/util/RejectScoringDealException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deal/src/test/java/deal/controller/DealControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/test/java/deal/controller/DealControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/test/java/deal/controller/ErrorHandlerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/test/java/deal/service/ConveyorServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deal/src/test/java/deal/service/FeignServiceConveyorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/test/java/deal/service/FeignServiceConveyorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/spring-boot-logger.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/spring-boot-logger.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,6 +127,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="FeignServiceConveyorTest.getCreditDTO" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="deal" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="deal.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="deal.service" />
+      <option name="MAIN_CLASS_NAME" value="deal.service.FeignServiceConveyorTest" />
+      <option name="METHOD_NAME" value="getCreditDTO" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MavenConfig" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -165,19 +166,6 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
-    <configuration name="ConveyorApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="conveyor" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="conveyor.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="SPRING_BOOT_MAIN_CLASS" value="conveyor.ConveyorApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="DealApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="deal" />
       <extension name="coverage">
@@ -194,10 +182,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.DealApplication" />
-        <item itemvalue="Spring Boot.ConveyorApplication" />
         <item itemvalue="JUnit.FeignServiceConveyorTest" />
         <item itemvalue="JUnit.DealServiceTest" />
         <item itemvalue="JUnit.DealControllerTest" />
+        <item itemvalue="JUnit.FeignServiceConveyorTest.getCreditDTO" />
       </list>
     </recent_temporary>
   </component>
@@ -216,6 +204,7 @@
       <workItem from="1656921601244" duration="22993000" />
       <workItem from="1656944893713" duration="6170000" />
       <workItem from="1656961949355" duration="43000" />
+      <workItem from="1656962425566" duration="3937000" />
     </task>
     <servers />
   </component>

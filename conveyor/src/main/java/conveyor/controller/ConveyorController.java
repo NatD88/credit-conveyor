@@ -41,7 +41,7 @@ public class ConveyorController {
 
     @PostMapping("/offers")
     @ApiOperation(value = "calculate four loan offers")
-    public ResponseEntity<List<LoanOfferDTO>> calcPossibleCreditConditions(@Valid @RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO,
+    public List<LoanOfferDTO> calcPossibleCreditConditions(@Valid @RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO,
                                                                            BindingResult bindingResult) throws MethodArgumentNotValidException {
         log.info("LoanApplicationRequestDTO entered the ConveyorController on mapping /conveyor/offers. " +
                 "loanApplicationRequestDTO: {}", loanApplicationRequestDTO);
@@ -54,12 +54,12 @@ public class ConveyorController {
         List<LoanOfferDTO> loanOfferDTOS =
                 creationLoanOffersService.createLoanOffersList(loanApplicationRequestDTO);
         log.info("list of loan offers is ready for the ResponseEntity. loanOfferDTOS: {} ", loanOfferDTOS);
-        return new ResponseEntity<>(loanOfferDTOS, HttpStatus.OK);
+        return loanOfferDTOS;
     }
 
     @PostMapping("/calculation")
     @ApiOperation(value = "calculate all credit options")
-    public ResponseEntity<CreditDTO> calcAllCreditOptions(@Valid @RequestBody ScoringDataDTO scoringDataDTO,
+    public CreditDTO calcAllCreditOptions(@Valid @RequestBody ScoringDataDTO scoringDataDTO,
                                                           BindingResult bindingResult) throws MethodArgumentNotValidException {
         log.info("ScoringDataDTO entered the ConveyorController on mapping /conveyor/calculation. " +
                 "scoringDataDTO: {}", scoringDataDTO);
@@ -78,12 +78,12 @@ public class ConveyorController {
             creditDTO = calculatingCreditParametersService.createCreditDTO(scoringDataDTO, booleanAndRate.getRate());
         }
         log.info("creditDTO is ready for the ResponseEntity. creditDTO: {} ", creditDTO);
-        return new ResponseEntity<>(creditDTO, HttpStatus.OK);
+        return creditDTO;
     }
 
     @ExceptionHandler(RejectScoringException.class)
-    public ResponseEntity<String> handleRejectScoringException(RejectScoringException e) {
+    public String handleRejectScoringException(RejectScoringException e) {
         log.info("handle RejectScoringException. the ResponseEntity with denial will return");
-        return new ResponseEntity<>("Отказано в выдаче кредита!!", HttpStatus.OK);
+        return "Отказано в выдаче кредита!!";
     }
 }
