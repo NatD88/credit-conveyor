@@ -37,7 +37,7 @@ public class CalculatingCreditParametersService {
     }
 
     public CreditDTO createCreditDTO(ScoringDataDTO scoringDataDTO, BigDecimal rate) {
-        log.info("start of creating ScoringDataDTO");
+        log.info("start of creating CreditDTO");
 
         validateScoringDataDTO(scoringDataDTO);
         if (rate == null) {
@@ -69,7 +69,7 @@ public class CalculatingCreditParametersService {
                 .psk(psk)
                 .build();
 
-        log.info("ScoringDataDTO created");
+        log.info("CreditDTO created");
         return creditDTO;
     }
 

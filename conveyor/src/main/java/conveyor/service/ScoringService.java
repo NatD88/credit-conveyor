@@ -88,7 +88,7 @@ public class ScoringService {
             rate = rate.add(new BigDecimal(3));
         }
 
-        if (scoringDataDTO.getEmployment().getPosition() == EmploymentPosition.MIDDLE_MANAGER) {
+        if (scoringDataDTO.getEmployment().getPosition() == EmploymentPosition.MID_MANAGER) {
             rate = rate.subtract(new BigDecimal(2));
         }
 

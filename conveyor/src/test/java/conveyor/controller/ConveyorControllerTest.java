@@ -77,12 +77,12 @@ class ConveyorControllerTest {
             "123456",
             LocalDate.of(2020, 11, 5),
             "MVD RF",
-            MaritalStatus.NOT_MARRIED,
+            MaritalStatus.SINGLE,
             1,
-            new EmploymentDTO (EmploymentStatus.WORKING,
+            new EmploymentDTO (EmploymentStatus. EMPLOYED,
                     "1234545",
                     new BigDecimal(50000),
-                    EmploymentPosition.OFFICE_WORKER,
+                    EmploymentPosition.WORKER,
             6,
             36),
             "12345678912345678987",
@@ -177,8 +177,8 @@ class ConveyorControllerTest {
     @Test
     void handleRejectScoringException() {
         ConveyorController conveyorController = new ConveyorController(loanApplicationRequestValidator, scoringDataValidator, creationLoanOffersService, scoringService, calculatingCreditParametersService);
-        ResponseEntity<String> response = conveyorController.handleRejectScoringException(new RejectScoringException());
-        assertEquals("Отказано в выдаче кредита!!", response.getBody());
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        String respStr = conveyorController.handleRejectScoringException(new RejectScoringException());
+        assertEquals("Отказано в выдаче кредита!!", respStr);
+
     }
 }

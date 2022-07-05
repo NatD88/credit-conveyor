@@ -40,8 +40,8 @@ public class CreateAndInitTestDTOs {
     public static EmploymentDTO createAndInitTestEmploymentDTO() {
         EmploymentDTO employmentDTO = new EmploymentDTO();
         employmentDTO.setEmployerINN("123456789");
-        employmentDTO.setEmploymentStatus(EmploymentStatus.WORKING);
-        employmentDTO.setPosition(EmploymentPosition.OFFICE_WORKER);
+        employmentDTO.setEmploymentStatus(EmploymentStatus.EMPLOYED);
+        employmentDTO.setPosition(EmploymentPosition.WORKER);
         employmentDTO.setSalary(new BigDecimal(50000));
         employmentDTO.setWorkExperienceCurrent(6);
         employmentDTO.setWorkExperienceTotal(36);
@@ -65,7 +65,7 @@ public class CreateAndInitTestDTOs {
         scoringDataDTO.setIsInsuranceEnabled(false);
         scoringDataDTO.setIsSalaryClient(false);
         scoringDataDTO.setLastName("Ivanov");
-        scoringDataDTO.setMaritalStatus(MaritalStatus.NOT_MARRIED);
+        scoringDataDTO.setMaritalStatus(MaritalStatus.SINGLE);
         scoringDataDTO.setMiddleName("");
         scoringDataDTO.setPassportIssueBranch("ROVD 1");
         scoringDataDTO.setPassportIssueDate(LocalDate.of(2020, 10, 5));
