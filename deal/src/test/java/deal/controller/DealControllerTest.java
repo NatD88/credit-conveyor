@@ -3,8 +3,8 @@ package deal.controller;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import conveyor.dto.*;
-import deal.dto.FinishRegistrationRequestDTO;
+
+import deal.dto.*;
 import deal.entity.ClientApplication;
 import deal.service.DealService;
 import deal.service.FeignServiceConveyor;
@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -147,7 +146,7 @@ class DealControllerTest {
     @Test
     void handleApplicationNotFoundException() {
         DealController dealController = new DealController(dealService, feignServiceConveyor);
-        ResponseEntity<Object> response = dealController.handleApplicationNotFoundException(new ApplicationNotFoundException(55L));
+        ResponseEntity<String> response = dealController.handleApplicationNotFoundException(new ApplicationNotFoundException(55L));
         assertEquals("Заявка с номером 55 не найдена в базе!", response.getBody());
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }

@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-employment-status-type
+      author: Natalia Deviatkina
+      changes:
+        - sql:
+            sql: CREATE TYPE EMPLOYMENT_STATUS_TYPE AS ENUM('UNEMPLOYED', 'SELF_EMPLOYED', 'EMPLOYED', 'BUSINESS_OWNER');

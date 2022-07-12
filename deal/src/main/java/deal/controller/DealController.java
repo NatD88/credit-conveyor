@@ -1,9 +1,9 @@
 package deal.controller;
 
-import conveyor.dto.CreditDTO;
-import conveyor.dto.LoanApplicationRequestDTO;
-import conveyor.dto.LoanOfferDTO;
-import conveyor.dto.ScoringDataDTO;
+import deal.dto.LoanOfferDTO;
+import deal.dto.LoanApplicationRequestDTO;
+import deal.dto.CreditDTO;
+import deal.dto.ScoringDataDTO;
 import deal.dto.FinishRegistrationRequestDTO;
 import deal.entity.ClientApplication;
 import deal.service.DealService;
@@ -43,7 +43,6 @@ public class DealController {
         log.info("client and application saved, applicationID received, applicationID: {}", applicationID);
         log.info("List<LoanOfferDTO> loanOfferDTOList: {}", loanOfferDTOList);
         return dealService.setApplicationIDToLoanOffers(applicationID, loanOfferDTOList);
-
     }
 
     @PutMapping("/offer")
@@ -56,7 +55,7 @@ public class DealController {
 
     @PutMapping("/calculate/{applicationID}")
     @ApiOperation("create ScoringFataDTO, update info in DB (tables Clients, Applications, Passports), send request to ms conveyor")
-    public void processingFinishRegistrationRequestDTO(FinishRegistrationRequestDTO finishRegistrationRequestDTO,
+    public void processingFinishRegistrationRequestDTO(@RequestBody FinishRegistrationRequestDTO finishRegistrationRequestDTO,
                                                                             @PathVariable Long applicationID) {
 
         log.info("FinishRegistrationRequestDTO entered  /deal/calculate/{applicationId}. finishRegistrationRequestDTO: {}", finishRegistrationRequestDTO);
@@ -83,7 +82,7 @@ public class DealController {
     }
 
     @ExceptionHandler(ApplicationNotFoundException.class)
-    public ResponseEntity<Object> handleApplicationNotFoundException(ApplicationNotFoundException e) {
+    public ResponseEntity<String> handleApplicationNotFoundException(ApplicationNotFoundException e) {
         log.warn("ApplicationNotFoundException handled");
         return new ResponseEntity<>(String.format("Заявка с номером %d не найдена в базе!", e.getApplicationID()), HttpStatus.NOT_FOUND);
     }

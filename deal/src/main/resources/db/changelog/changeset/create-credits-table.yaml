@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-credits
+      author: Natalia Deviatkina
+      changes:
+        - createTable:
+            tableName: credits
+            columns:
+              - column:
+                  name: CREDIT_ID
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: AMOUNT
+                  type: decimal
+              - column:
+                  name: TERM
+                  type: integer
+              - column:
+                  name: MONTHLY_PAYMENT
+                  type: decimal
+              - column:
+                  name: RATE
+                  type: decimal
+              - column:
+                  name: PSK
+                  type: decimal
+              - column:
+                  name: PAYMENT_SCHEDULE
+                  type: JSONB
+              - column:
+                  name: IS_INSURANCE_ENABLED
+                  type: boolean
+              - column:
+                  name: IS_SALARY_CLIENT
+                  type: boolean
+              - column:
+                  name: CREDIT_STATUS
+                  type: CREDIT_STATUS_TYPE
+
+
+

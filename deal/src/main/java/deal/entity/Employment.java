@@ -1,8 +1,8 @@
 package deal.entity;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-import conveyor.dto.EmploymentPosition;
-import conveyor.dto.EmploymentStatus;
+import deal.dto.EmploymentPosition;
+import deal.dto.EmploymentStatus;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;

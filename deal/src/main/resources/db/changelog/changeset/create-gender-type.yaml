@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-gender-type
+      author: Natalia Deviatkina
+      changes:
+        - sql:
+            sql: CREATE TYPE GENDER_TYPE AS ENUM('MALE', 'FEMALE', 'NON_BINARY');
+

@@ -1,7 +1,7 @@
 package deal.service;
 
-import conveyor.dto.*;
-import deal.dto.FinishRegistrationRequestDTO;
+
+import deal.dto.*;
 import deal.entity.*;
 import deal.repository.*;
 import deal.util.ApplicationNotFoundException;

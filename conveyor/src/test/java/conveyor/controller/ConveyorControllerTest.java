@@ -176,7 +176,7 @@ class ConveyorControllerTest {
 
     @Test
     void handleRejectScoringException() {
-        ConveyorController conveyorController = new ConveyorController(loanApplicationRequestValidator, scoringDataValidator, creationLoanOffersService, scoringService, calculatingCreditParametersService);
+        ConveyorController conveyorController = new ConveyorController(scoringDataValidator, creationLoanOffersService, scoringService, calculatingCreditParametersService);
         String respStr = conveyorController.handleRejectScoringException(new RejectScoringException());
         assertEquals("Отказано в выдаче кредита!!", respStr);
 

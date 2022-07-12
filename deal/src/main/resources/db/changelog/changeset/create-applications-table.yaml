@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-applications
+      author: Natalia Deviatkina
+      changes:
+        - createTable:
+            tableName: applications
+            columns:
+              - column:
+                  name: APPLICATION_ID
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: CLIENT_ID
+                  type: bigint
+              - column:
+                  name: CREDIT_ID
+                  type: bigint
+              - column:
+                  name: APPLICATION_STATUS
+                  type: APPLICATION_STATUS_TYPE
+              - column:
+                  name: CREATION_DATE
+                  type: date
+              - column:
+                  name: APPLIED_OFFER
+                  type: JSONB
+              - column:
+                  name: SIGN_DATE
+                  type: DATE
+              - column:
+                  name: SES_CODE
+                  type: integer
+              - column:
+                  name: STATUS_HISTORY
+                  type: JSONB
+              - addForeignKeyConstraint:
+                  baseTableName: applications
+                  baseColumnNames: CLIENT_ID
+                  referencedTableName: clients
+                  referencedColumnNames: CLIENT_ID
+                  constraintName: application_client_fk
+              - addForeignKeyConstraint:
+                  baseTableName: applications
+                  baseColumnNames: CREDIT_ID
+                  referencedTableName: credits
+                  referencedColumnNames: CREDIT_ID
+                  constraintName: application_credit_fk
+

@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-sequence
+      author: Natalia Deviatkina
+      changes:
+        - createSequence:
+            sequenceName: hibernate_sequence
+            startValue: 1

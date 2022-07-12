@@ -1,8 +1,6 @@
 package deal.dto;
 
-import conveyor.dto.EmploymentDTO;
-import conveyor.dto.Gender;
-import conveyor.dto.MaritalStatus;
+
 import lombok.*;
 
 import java.time.LocalDate;
