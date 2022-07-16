@@ -8,16 +8,19 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="conveyor" />
+        <module name="application" />
         <module name="deal" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="application" target="11" />
       <module name="conveyor" target="11" />
       <module name="deal" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="application" options="-parameters" />
       <module name="conveyor" options="-parameters" />
       <module name="deal" options="-parameters" />
     </option>

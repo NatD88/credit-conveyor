@@ -1,7 +1,8 @@
 package deal.entity;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-import conveyor.dto.Gender;
-import conveyor.dto.MaritalStatus;
+
+import deal.dto.Gender;
+import deal.dto.MaritalStatus;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;

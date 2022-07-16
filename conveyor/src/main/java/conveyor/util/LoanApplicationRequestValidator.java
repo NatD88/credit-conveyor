@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Objects;
 
-@Component
+
 @Slf4j
 public class LoanApplicationRequestValidator implements Validator {
     @Override

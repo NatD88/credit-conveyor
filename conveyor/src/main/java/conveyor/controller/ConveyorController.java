@@ -33,7 +33,6 @@ import java.util.List;
 
 public class ConveyorController {
 
-    private final LoanApplicationRequestValidator loanApplicationRequestValidator;
     private final ScoringDataValidator scoringDataValidator;
     private final CreationLoanOffersService creationLoanOffersService;
     private final ScoringService scoringService;
@@ -41,15 +40,10 @@ public class ConveyorController {
 
     @PostMapping("/offers")
     @ApiOperation(value = "calculate four loan offers")
-    public List<LoanOfferDTO> calcPossibleCreditConditions(@Valid @RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO,
-                                                                           BindingResult bindingResult) throws MethodArgumentNotValidException {
+
+    public List<LoanOfferDTO> calcPossibleCreditConditions( @RequestBody LoanApplicationRequestDTO loanApplicationRequestDTO)  {
         log.info("LoanApplicationRequestDTO entered the ConveyorController on mapping /conveyor/offers. " +
                 "loanApplicationRequestDTO: {}", loanApplicationRequestDTO);
-        loanApplicationRequestValidator.validate(loanApplicationRequestDTO, bindingResult);
-        if (bindingResult.hasErrors()) {
-            log.warn("validation of loanApplicationRequestDTO has errors, MethodArgumentNotValidException will be thrown");
-            throw new MethodArgumentNotValidException(null, bindingResult);
-        }
 
         List<LoanOfferDTO> loanOfferDTOS =
                 creationLoanOffersService.createLoanOffersList(loanApplicationRequestDTO);

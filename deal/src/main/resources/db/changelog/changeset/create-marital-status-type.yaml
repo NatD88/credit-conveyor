@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-marital-status-type
+      author: Natalia Deviatkina
+      changes:
+        - sql:
+            sql: CREATE TYPE MARITAL_STATUS_TYPE AS ENUM('MARRIED', 'DIVORCED', 'SINGLE', 'WIDOW_WIDOWER');

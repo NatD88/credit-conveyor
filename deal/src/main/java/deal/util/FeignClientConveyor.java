@@ -1,10 +1,11 @@
 package deal.util;
 
-import conveyor.dto.CreditDTO;
-import conveyor.dto.LoanApplicationRequestDTO;
-import conveyor.dto.LoanOfferDTO;
-import conveyor.dto.ScoringDataDTO;
+
 import deal.config.FeignClientConfig;
+import deal.dto.CreditDTO;
+import deal.dto.LoanApplicationRequestDTO;
+import deal.dto.LoanOfferDTO;
+import deal.dto.ScoringDataDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

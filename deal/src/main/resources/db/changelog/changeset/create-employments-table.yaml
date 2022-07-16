@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-employments
+      author: Natalia Deviatkina
+      changes:
+        - createTable:
+            tableName: employments
+            columns:
+              - column:
+                  name: EMPLOYMENT_ID
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: EMPLOYMENT_STATUS
+                  type: EMPLOYMENT_STATUS_TYPE
+              - column:
+                  name: EMPLOYER
+                  type: varchar(200)
+              - column:
+                  name: SALARY
+                  type: decimal
+              - column:
+                  name: EMPLOYMENT_POSITION
+                  type: EMPLOYMENT_POSITION_TYPE
+              - column:
+                  name: WORK_EXPERIENCE_TOTAL
+                  type: integer
+              - column:
+                  name: WORK_EXPERIENCE_CURRENT
+                  type: integer
+
+

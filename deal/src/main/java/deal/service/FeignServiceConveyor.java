@@ -1,11 +1,9 @@
 package deal.service;
 
-
-import conveyor.dto.CreditDTO;
-import conveyor.dto.LoanApplicationRequestDTO;
-import conveyor.dto.LoanOfferDTO;
-import conveyor.dto.ScoringDataDTO;
-import conveyor.util.RejectScoringException;
+import deal.dto.CreditDTO;
+import deal.dto.LoanApplicationRequestDTO;
+import deal.dto.LoanOfferDTO;
+import deal.dto.ScoringDataDTO;
 import deal.util.BadRequestException;
 import deal.util.FeignClientConveyor;
 import deal.util.RejectScoringDealException;

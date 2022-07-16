@@ -2,7 +2,7 @@ package deal.entity;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import com.vladmihalcea.hibernate.type.json.JsonType;
-import conveyor.dto.PaymentScheduleElement;
+import deal.dto.PaymentScheduleElement;
 import deal.util.CreditStatus;
 import lombok.*;
 import org.hibernate.annotations.Type;

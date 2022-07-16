@@ -53,8 +53,6 @@ class ValidationLoanApplicationRequestHandlerTest {
         Mockito.when(ex.getBindingResult()).thenReturn(beanPropertyBindingResult);
 
         ResponseEntity<Object> response = validationLoanApplicationRequestHandler.handleMethodArgumentNotValid(ex,headers,status,request);
-        System.out.println(response.getBody());
-        System.out.println(response.getStatusCode());
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         Assertions.assertNotNull(response.getBody());

@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52163860-211d-4114-b1fa-62992ee1f833" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/application/src/main/java/application/util/ValidatorDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/controller/ConveyorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/main/java/conveyor/controller/ConveyorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/controller/ConveyorControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/controller/ConveyorControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/service/CalculatingCreditParametersServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/conveyor/src/test/java/conveyor/service/CalculatingCreditParametersServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/logs/spring-boot-logger.log" beforeDir="false" afterPath="$PROJECT_DIR$/deal/logs/spring-boot-logger.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/controller/DealController.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/java/deal/controller/DealController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/service/FeignServiceConveyor.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/java/deal/service/FeignServiceConveyor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/util/FeignClientConveyor.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/java/deal/util/FeignClientConveyor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/main/java/deal/util/RejectScoringDealException.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/main/java/deal/util/RejectScoringDealException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/test/java/deal/controller/DealControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/test/java/deal/controller/DealControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deal/src/test/java/deal/service/FeignServiceConveyorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/deal/src/test/java/deal/service/FeignServiceConveyorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/spring-boot-logger.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/spring-boot-logger.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/src/main/java/application/service/FeignServiceDeal.java" beforeDir="false" afterPath="$PROJECT_DIR$/application/src/main/java/application/service/FeignServiceDeal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/src/test/java/application/service/FeignServiceDealTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/application/src/test/java/application/service/FeignServiceDealTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +19,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -38,12 +30,15 @@
   <component name="JpbToolWindowState">
     <option name="myId2FirstActivated">
       <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
         <entry key="com.haulmont.jpb.jpaPalette" value="true" />
         <entry key="com.haulmont.jpb.jpaStructure" value="true" />
       </map>
     </option>
     <option name="myId2Visible">
       <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
         <entry key="com.haulmont.jpb.jpaStructure" value="true" />
       </map>
     </option>
@@ -54,16 +49,21 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.importing" />
   </component>
   <component name="RecentsManager">
@@ -71,6 +71,8 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="application.service" />
+      <recent name="application.controller" />
       <recent name="deal.service" />
     </key>
   </component>
@@ -81,64 +83,48 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.DealApplication">
-    <configuration name="DealControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="deal" />
+  <component name="RunManager" selected="JUnit.FeignServiceDealTest">
+    <configuration name="ApplicationControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="application" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="deal.controller.*" />
+          <option name="PATTERN" value="application.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="deal.controller" />
-      <option name="MAIN_CLASS_NAME" value="deal.controller.DealControllerTest" />
+      <option name="PACKAGE_NAME" value="application.controller" />
+      <option name="MAIN_CLASS_NAME" value="application.controller.ApplicationControllerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DealServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="deal" />
+    <configuration name="FeignServiceDealTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="application" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="deal.service.*" />
+          <option name="PATTERN" value="application.service.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="deal.service" />
-      <option name="MAIN_CLASS_NAME" value="deal.service.DealServiceTest" />
+      <option name="PACKAGE_NAME" value="application.service" />
+      <option name="MAIN_CLASS_NAME" value="application.service.FeignServiceDealTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FeignServiceConveyorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="deal" />
+    <configuration name="ValidationLoanApplicationRequestHandlerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="application" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="deal.service.*" />
+          <option name="PATTERN" value="application.controller.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="deal.service" />
-      <option name="MAIN_CLASS_NAME" value="deal.service.FeignServiceConveyorTest" />
+      <option name="PACKAGE_NAME" value="application.controller" />
+      <option name="MAIN_CLASS_NAME" value="application.controller.ValidationLoanApplicationRequestHandlerTest" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="FeignServiceConveyorTest.getCreditDTO" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="deal" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="deal.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="deal.service" />
-      <option name="MAIN_CLASS_NAME" value="deal.service.FeignServiceConveyorTest" />
-      <option name="METHOD_NAME" value="getCreditDTO" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -166,6 +152,26 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="application" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="application.Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ConveyorApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="conveyor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="conveyor.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="conveyor.ConveyorApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DealApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="deal" />
       <extension name="coverage">
@@ -181,11 +187,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.FeignServiceDealTest" />
         <item itemvalue="Spring Boot.DealApplication" />
-        <item itemvalue="JUnit.FeignServiceConveyorTest" />
-        <item itemvalue="JUnit.DealServiceTest" />
-        <item itemvalue="JUnit.DealControllerTest" />
-        <item itemvalue="JUnit.FeignServiceConveyorTest.getCreditDTO" />
+        <item itemvalue="Spring Boot.ConveyorApplication" />
+        <item itemvalue="JUnit.ValidationLoanApplicationRequestHandlerTest" />
+        <item itemvalue="JUnit.ApplicationControllerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -205,6 +211,10 @@
       <workItem from="1656944893713" duration="6170000" />
       <workItem from="1656961949355" duration="43000" />
       <workItem from="1656962425566" duration="3937000" />
+      <workItem from="1657097377886" duration="1363000" />
+      <workItem from="1657544346500" duration="18389000" />
+      <workItem from="1657615134634" duration="19546000" />
+      <workItem from="1657987844135" duration="1048000" />
     </task>
     <servers />
   </component>
@@ -232,6 +242,11 @@
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.Integer" memberName="value" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/credit_conveyor$FeignServiceConveyorTest.ic" NAME="FeignServiceConveyorTest Coverage Results" MODIFIED="1656948261282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -239,6 +254,15 @@
     </SUITE>
     <SUITE FILE_PATH="coverage/credit_conveyor$DealControllerTest.ic" NAME="DealControllerTest Coverage Results" MODIFIED="1656946943030" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>deal.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/credit_conveyor$FeignServiceDealTest.ic" NAME="FeignServiceDealTest Coverage Results" MODIFIED="1657634025033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>application.service.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/credit_conveyor$ValidationLoanApplicationRequestHandlerTest.ic" NAME="ValidationLoanApplicationRequestHandlerTest Coverage Results" MODIFIED="1657634104849" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>application.controller.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/credit_conveyor$ApplicationControllerTest.ic" NAME="ApplicationControllerTest Coverage Results" MODIFIED="1657634079706" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>application.controller.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/credit_conveyor$DealServiceTest.ic" NAME="DealServiceTest Coverage Results" MODIFIED="1656948352736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>deal.service.*</FILTER>

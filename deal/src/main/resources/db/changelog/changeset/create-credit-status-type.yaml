@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-credit-status-type
+      author: Natalia Deviatkina
+      changes:
+        - sql:
+            sql: CREATE TYPE CREDIT_STATUS_TYPE AS ENUM('CALCULATED', 'ISSUED');

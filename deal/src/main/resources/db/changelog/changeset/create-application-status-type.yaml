@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-application-status-type
+      author: Natalia Deviatkina
+      changes:
+        - sql:
+            sql: CREATE TYPE APPLICATION_STATUS_TYPE AS ENUM('PREAPPROVAL', 'APPROVED', 'CC_DENIED','CC_APPROVED', 'PREPARE_DOCUMENTS', 'DOCUMENT_SIGNED', 'CREDIT_ISSUED');

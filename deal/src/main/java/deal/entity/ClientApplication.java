@@ -3,7 +3,7 @@ package deal.entity;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.vladmihalcea.hibernate.type.json.JsonType;
-import conveyor.dto.LoanOfferDTO;
+import deal.dto.LoanOfferDTO;
 import deal.util.ApplicationStatus;
 import lombok.*;
 import org.hibernate.annotations.Type;

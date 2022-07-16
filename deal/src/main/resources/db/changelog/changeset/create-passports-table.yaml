@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-passports
+      author: Natalia Deviatkina
+      changes:
+        - createTable:
+            tableName: passports
+            columns:
+              - column:
+                  name: PASSPORT_ID
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: SERIES
+                  type: varchar(4)
+              - column:
+                  name: NUMBER
+                  type: varchar(6)
+              - column:
+                  name: ISSUE_DATE
+                  type: date
+              - column:
+                  name: ISSUE_BRANCH
+                  type: varchar(200)
+
+
+

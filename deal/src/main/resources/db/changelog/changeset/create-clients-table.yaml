@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-clients
+      author: Natalia Deviatkina
+      changes:
+        - createTable:
+            tableName: clients
+            columns:
+              - column:
+                  name: CLIENT_ID
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: LAST_NAME
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: FIRST_NAME
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: MIDDLE_NAME
+                  type: VARCHAR(150)
+              - column:
+                  name: BIRTH_DATE
+                  type: date
+              - column:
+                  name: EMAIL
+                  type: VARCHAR(150)
+              - column:
+                  name: GENDER
+                  type: GENDER_TYPE
+              - column:
+                  name: MARITAL_STATUS
+                  type: MARITAL_STATUS_TYPE
+              - column:
+                  name: DEPENDENT_AMOUNT
+                  type: integer
+              - column:
+                  name: PASSPORT_ID
+                  type: bigint
+              - column:
+                  name: EMPLOYMENT_ID
+                  type: bigint
+              - column:
+                  name: ACCOUNT
+                  type: VARCHAR(200)
+        - addForeignKeyConstraint:
+            baseTableName: clients
+            baseColumnNames: PASSPORT_ID
+            referencedTableName: passports
+            referencedColumnNames: PASSPORT_ID
+            constraintName: client_passport_fk
+        - addForeignKeyConstraint:
+            baseTableName: clients
+            baseColumnNames: EMPLOYMENT_ID
+            referencedTableName: employments
+            referencedColumnNames: EMPLOYMENT_ID
+            constraintName: client_employment_fk
+
