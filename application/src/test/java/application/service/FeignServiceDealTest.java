@@ -3,6 +3,7 @@ package application.service;
 import application.dto.LoanApplicationRequestDTO;
 import application.dto.LoanOfferDTO;
 import application.util.FeignClientDeal;
+import application.util.ValidatorDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,6 +22,8 @@ class FeignServiceDealTest {
 
     @MockBean
     FeignClientDeal feignClientDeal;
+    @MockBean
+    ValidatorDTO validatorDTO;
 
     LoanApplicationRequestDTO loanApplicationRequestDTO = new LoanApplicationRequestDTO(new BigDecimal(15000),
             6,
@@ -49,14 +52,14 @@ class FeignServiceDealTest {
         list.add(loanOfferDTO);
 
         Mockito.when(feignClientDeal.getLoanOffers(Mockito.any())).thenReturn(list);
-        FeignServiceDeal feignServiceDeal = new FeignServiceDeal(feignClientDeal);
+        FeignServiceDeal feignServiceDeal = new FeignServiceDeal(feignClientDeal, validatorDTO);
         List<LoanOfferDTO> resList = feignServiceDeal.getLoanOffers(loanApplicationRequestDTO);
         Assertions.assertEquals(list, resList);
     }
 
     @Test
     void sendLoanOffer() {
-        FeignServiceDeal feignServiceDeal = new FeignServiceDeal(feignClientDeal);
+        FeignServiceDeal feignServiceDeal = new FeignServiceDeal(feignClientDeal, validatorDTO);
         Assertions.assertDoesNotThrow(() -> feignServiceDeal.sendLoanOffer(loanOfferDTO));
     }
 }
