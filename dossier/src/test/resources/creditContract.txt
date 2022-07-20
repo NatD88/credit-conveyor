@@ -1,0 +1,11 @@
+Credit contract №82 from 2022-07-20T15:53:29.673051300
+Client: FDFCDEFDE regerg string 1988-11-11
+Credit info:
+ Amount: 200000
+ Term: 36
+ Monthly payment: 6991.974
+ Rate: 16
+ PSK: 15.96310400
+ Services: 
+   insurance: false
+   is salary client: true

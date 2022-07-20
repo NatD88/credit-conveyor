@@ -1,0 +1,15 @@
+Client application №82 from 2022-07-20T15:53:29.648051
+Client info: 
+firstname: FDFCDEFDE
+lastname: regerg
+middle name: string
+birthday: 1988-11-11
+email: golovskaya@mail.ru
+gender: FEMALE
+marital status: MARRIED
+dependent amount 1
+passport: 1234 123456 string 2022-07-12
+Employment: 123 MID_MANAGER BUSINESS_OWNER
+Salary: 80000
+work experience current 15
+work experience total 35

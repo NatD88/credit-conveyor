@@ -2,16 +2,21 @@ package deal.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import deal.dto.*;
 import deal.entity.ClientApplication;
 import deal.service.DealService;
 import deal.service.FeignServiceConveyor;
+import deal.service.KafkaSendService;
 import deal.util.ApplicationNotFoundException;
+import deal.util.ApplicationStatus;
 import deal.util.BadRequestException;
 import deal.util.RejectScoringDealException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -45,6 +50,8 @@ class DealControllerTest {
     private DealService dealService;
     @MockBean
     private FeignServiceConveyor feignServiceConveyor;
+    @MockBean
+    private KafkaSendService kafkaSendService;
 
     LoanApplicationRequestDTO loanApplicationRequestDTO = new LoanApplicationRequestDTO(new BigDecimal(15000),
             6,
@@ -135,7 +142,7 @@ class DealControllerTest {
 
     @Test
     void handleBadRequestException() {
-        DealController dealController = new DealController(dealService, feignServiceConveyor);
+        DealController dealController = new DealController(dealService, feignServiceConveyor, kafkaSendService);
         Map<Object, Object> testMap = new HashMap<>();
         testMap.put("passport", "incorrect passport value");
         ResponseEntity<Object> response = dealController.handleBadRequestException(new BadRequestException(testMap));
@@ -145,7 +152,7 @@ class DealControllerTest {
 
     @Test
     void handleApplicationNotFoundException() {
-        DealController dealController = new DealController(dealService, feignServiceConveyor);
+        DealController dealController = new DealController(dealService, feignServiceConveyor, kafkaSendService);
         ResponseEntity<String> response = dealController.handleApplicationNotFoundException(new ApplicationNotFoundException(55L));
         assertEquals("Заявка с номером 55 не найдена в базе!", response.getBody());
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -154,9 +161,79 @@ class DealControllerTest {
     @Test
 
     void handleRejectScoringDealException() {
-        DealController dealController = new DealController(dealService, feignServiceConveyor);
+        DealController dealController = new DealController(dealService, feignServiceConveyor, kafkaSendService);
         String strResponse = dealController.handleRejectScoringDealException(new RejectScoringDealException("Отказано в выдаче кредита!!", 1L));
         assertEquals("Отказано в выдаче кредита!!", strResponse);
     }
 
+    @Test
+    void sendDocuments() throws Exception {
+        MockHttpServletRequestBuilder mockRequest =
+                MockMvcRequestBuilders.
+                        post("/deal/document/55/send")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void signRequestDocuments() throws Exception {
+        MockHttpServletRequestBuilder mockRequest =
+                MockMvcRequestBuilders.
+                        post("/deal/document/333/sign")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
+    void approveDocuments() throws Exception {
+        Mockito.when(dealService.checkSesCode(Mockito.any(), Mockito.anyInt())).thenReturn(false);
+        MockHttpServletRequestBuilder mockRequest =
+                MockMvcRequestBuilders.
+                        post("/deal/document/987/code")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(this.mapper.writeValueAsString(2534));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getClientApplication() throws Exception {
+        ClientApplication clientApplication = new ClientApplication();
+        clientApplication.setSes_code(1232);
+        Mockito.when(dealService.getClientApplication(Mockito.any())).thenReturn(clientApplication);
+
+
+        MockHttpServletRequestBuilder mockRequest =
+                MockMvcRequestBuilders.
+                        get("/deal/admin/application/542")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.ses_code").value(1232));
+    }
+
+    @Test
+    void updateClientApplicationStatus() throws Exception {
+        MockHttpServletRequestBuilder mockRequest =
+                MockMvcRequestBuilders.
+                        put("/deal/admin/application/456/status")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(this.mapper.writeValueAsString(ApplicationStatus.DOCUMENT_CREATED));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk());
+    }
 }
