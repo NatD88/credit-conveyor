@@ -538,4 +538,23 @@ public class DealService {
         creditRepository.save(credit);
         log.info("credit saved with updated status");
     }
+
+    public List<ClientApplication> getAllClientApplications() {
+        return applicationRepository.findAll();
+    }
+
+    public void denyApp(Long applicationId) {
+        log.info("denyApp started, applicationId: {}", applicationId);
+        ClientApplication clientApplication = getClientApplication(applicationId);
+        clientApplication.setApplicationStatus(ApplicationStatus.CC_DENIED);
+        List<ApplicationStatusHistory> historyList = clientApplication.getStatusHistoryList();
+        ApplicationStatusHistory applicationStatusHistory = ApplicationStatusHistory.builder()
+                .status(ApplicationStatus.CC_DENIED)
+                .time(LocalDateTime.now())
+                .changeType(ChangeType.MANUAL)
+                .build();
+        historyList.add(applicationStatusHistory);
+        applicationRepository.save(clientApplication);
+        log.info("denyApp entered, application status and status history updated in DB. application: {}", applicationId);
+    }
 }
