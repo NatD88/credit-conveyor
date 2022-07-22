@@ -8,14 +8,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="conveyor" />
-        <module name="application" />
+        <module name="dossier" />
         <module name="deal" />
+        <module name="application" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="application" target="11" />
       <module name="conveyor" target="11" />
       <module name="deal" target="11" />
+      <module name="dossier" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -23,6 +25,7 @@
       <module name="application" options="-parameters" />
       <module name="conveyor" options="-parameters" />
       <module name="deal" options="-parameters" />
+      <module name="dossier" options="-parameters" />
     </option>
   </component>
 </project>

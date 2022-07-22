@@ -1,16 +1,11 @@
 package deal.controller;
 
-import deal.dto.LoanOfferDTO;
-import deal.dto.LoanApplicationRequestDTO;
-import deal.dto.CreditDTO;
-import deal.dto.ScoringDataDTO;
-import deal.dto.FinishRegistrationRequestDTO;
+import deal.dto.*;
 import deal.entity.ClientApplication;
 import deal.service.DealService;
 import deal.service.FeignServiceConveyor;
-import deal.util.ApplicationNotFoundException;
-import deal.util.BadRequestException;
-import deal.util.RejectScoringDealException;
+import deal.service.KafkaSendService;
+import deal.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +25,8 @@ public class DealController {
 
     private final DealService dealService;
     private final FeignServiceConveyor feignServiceConveyor;
+    private final KafkaSendService kafkaSendService;
+
 
     @PostMapping("/application")
     @ApiOperation(value = "get four loan offers from ms conveyor and save Client and Application to DB")
@@ -51,6 +48,8 @@ public class DealController {
         log.info("LoanOfferDTO entered  /deal/offer . loanOfferDTO: {}", loanOfferDTO);
         dealService.saveChosenLoanOfferDTO(loanOfferDTO);
         log.info("loanOfferDTO saved to DB");
+        EmailMessage emailMessage = dealService.createEmail(ThemeEmail.FINISH_REGISTRATION, loanOfferDTO.getApplicationId());
+        kafkaSendService.send(emailMessage);
     }
 
     @PutMapping("/calculate/{applicationID}")
@@ -70,6 +69,8 @@ public class DealController {
        CreditDTO responseCreditDTO = feignServiceConveyor.getCreditDTO(scoringDataDTO, applicationID);
         log.info("ResponseEntity<CreditDTO> received to DealController");
         dealService.saveCredit(responseCreditDTO, applicationID);
+        EmailMessage emailMessage = dealService.createEmail(ThemeEmail.CREATE_DOCUMENT, applicationID);
+        kafkaSendService.send(emailMessage);
     }
 
     @ExceptionHandler(BadRequestException.class)
@@ -91,6 +92,49 @@ public class DealController {
     public String handleRejectScoringDealException(RejectScoringDealException e) {
         log.warn("handle RejectScoringDealException. the ResponseEntity with denial will return");
         dealService.denieApplicationStatus(e.getApplicationID());
+        EmailMessage emailMessage = dealService.createEmail(ThemeEmail.APPLICATION_DENIED, e.getApplicationID());
+        kafkaSendService.send(emailMessage);
         return e.getRejectMessage();
+    }
+
+    @PostMapping("/document/{applicationId}/send")
+    @ApiOperation(value = "requesting documents sending")
+    public void sendDocuments(@PathVariable Long applicationId) {
+        log.info("documents request received, applicationId: {}", applicationId);
+        EmailMessage emailMessage = dealService.createEmail(ThemeEmail.SEND_DOCUMENT, applicationId);
+        kafkaSendService.send(emailMessage);
+    }
+
+    @PostMapping("/document/{applicationId}/sign")
+    @ApiOperation(value = "requesting documents signing")
+    public void signRequestDocuments(@PathVariable Long applicationId) {
+        log.info("documents signing received, applicationId: {}", applicationId);
+        dealService.createAndSaveSES(applicationId);
+        EmailMessage emailMessage = dealService.createEmail(ThemeEmail.SEND_SES, applicationId);
+        kafkaSendService.send(emailMessage);
+    }
+
+    @PostMapping("/document/{applicationId}/code")
+    @ApiOperation(value = "approving documents")
+    public void approveDocuments(@PathVariable Long applicationId, @RequestBody int code) {
+        log.info("approving documents, applicationId: {}, code: {}", applicationId, code);
+        if (dealService.checkSesCode(applicationId, code)) {
+            dealService.updateClientApplicationStatus(applicationId, ApplicationStatus.DOCUMENT_SIGNED);
+            dealService.updateCredit(applicationId, CreditStatus.ISSUED);
+            EmailMessage emailMessage = dealService.createEmail(ThemeEmail.CREDIT_ISSUED, applicationId);
+            kafkaSendService.send(emailMessage);
+        }
+    }
+
+    @GetMapping("/admin/application/{applicationId}")
+    @ApiOperation(value = "getting client application")
+    public ClientApplication getClientApplication(@PathVariable Long applicationId) {
+        return dealService.getClientApplication(applicationId);
+    }
+
+    @PutMapping("/admin/application/{applicationId}/status")
+    @ApiOperation(value = "update clientApplication status")
+    public void updateClientApplicationStatus(@PathVariable Long applicationId, ApplicationStatus applicationStatus) {
+        dealService.updateClientApplicationStatus(applicationId, applicationStatus);
     }
 }

@@ -6,6 +6,7 @@ import deal.entity.*;
 import deal.repository.*;
 import deal.util.ApplicationNotFoundException;
 import deal.util.ApplicationStatus;
+import deal.util.ThemeEmail;
 import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -149,6 +150,7 @@ class DealServiceTest {
                 .applicationID(15L)
                 .client(client)
                 .credit(credit)
+                .ses_code(2453)
                 .statusHistoryList(new ArrayList<>())
                 .build();
 
@@ -187,4 +189,37 @@ class DealServiceTest {
         dealServiceWithMocks.checkApplicationStatus(15L);
         Assertions.assertEquals(ApplicationStatus.APPROVED, optionalClientApplication.get().getApplicationStatus());
     }
+
+    @Test
+    void createEmail() {
+
+        DealService dealServiceWithMocks = new DealService(mockClientRepository, mockPassportRepository,mockCreditRepository,
+                mockApplicationRepository, mockEmploymentRepository);
+        ClientApplication clientApplication = initAllInClientApplication();
+        Optional<ClientApplication> optionalClientApplication = Optional.of(clientApplication);
+        Mockito.when(mockApplicationRepository.findById(Mockito.any())).thenReturn(optionalClientApplication);
+        EmailMessage emailMessage = dealServiceWithMocks.createEmail(ThemeEmail.CREATE_DOCUMENT, 15L);
+        Assertions.assertEquals("sfsef@sf.r", emailMessage.getAddress());
+        Assertions.assertEquals(ThemeEmail.CREATE_DOCUMENT, emailMessage.getThemeEmail());
+    }
+
+    @Test
+    void getClientApplication() {
+        DealService dealServiceWithMocks = new DealService(mockClientRepository, mockPassportRepository,mockCreditRepository,
+                mockApplicationRepository, mockEmploymentRepository);
+        Mockito.when(mockApplicationRepository.findById(Mockito.any())).thenReturn(null);
+        Assertions.assertThrows(ApplicationNotFoundException.class, () -> dealService.getClientApplication(15L));
+    }
+
+
+    @Test
+    void checkSesCode() {
+        DealService dealServiceWithMocks = new DealService(mockClientRepository, mockPassportRepository,mockCreditRepository,
+                mockApplicationRepository, mockEmploymentRepository);
+        ClientApplication clientApplication = initAllInClientApplication();
+        Optional<ClientApplication> optionalClientApplication = Optional.of(clientApplication);
+        Mockito.when(mockApplicationRepository.findById(Mockito.any())).thenReturn(optionalClientApplication);
+        Assertions.assertTrue(dealServiceWithMocks.checkSesCode(15L, 2453));
+    }
+
 }

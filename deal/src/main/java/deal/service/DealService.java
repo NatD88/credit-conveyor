@@ -3,13 +3,11 @@ package deal.service;
 import deal.dto.*;
 import deal.entity.*;
 import deal.repository.*;
-import deal.util.ApplicationNotFoundException;
-import deal.util.ApplicationStatus;
-import deal.util.ChangeType;
-import deal.util.CreditStatus;
+import deal.util.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -445,14 +443,7 @@ public class DealService {
         if (applicationID == null) {
             throw new RuntimeException("applicationID is null!");
         }
-
-        Optional<ClientApplication> applicationOptional =
-                applicationRepository.findById(applicationID);
-        if (applicationOptional.isEmpty()) {
-            throw new ApplicationNotFoundException(applicationID);
-        }
-        log.info("clientApplication found in DB");
-        ClientApplication clientApplication = applicationOptional.get();
+        ClientApplication clientApplication = getClientApplication(applicationID);
 
         Credit credit = clientApplication.getCredit();
         credit.setCreditStatus(CreditStatus.CALCULATED);
@@ -467,5 +458,84 @@ public class DealService {
 
         creditRepository.save(credit);
         log.info("saveCredit ended");
+    }
+
+    public EmailMessage createEmail(ThemeEmail themeEmail, Long applicationID) {
+        log.info("createEmail started");
+        ClientApplication clientApplication = getClientApplication(applicationID);
+        Client client = clientApplication.getClient();
+        String emailAddress = client.getEmail();
+        EmailMessage emailMessage = EmailMessage.builder()
+                .applicationID(applicationID)
+                .themeEmail(themeEmail)
+                .address(emailAddress)
+                .build();
+
+        log.info("email successfuly created");
+        return emailMessage;
+    }
+
+    public ClientApplication getClientApplication(Long applicationId) {
+        log.info("getClientApplication started");
+        Optional<ClientApplication> applicationOptional =
+                applicationRepository.findById(applicationId);
+        if (applicationOptional.isEmpty()) {
+            throw new ApplicationNotFoundException(applicationId);
+        }
+        log.info("clientApplication found in DB");
+        return applicationOptional.get();
+    }
+
+    public void updateClientApplicationStatus(Long applicationId, ApplicationStatus applicationStatus) {
+        log.info("updateClientApplicationStatus started");
+        ClientApplication clientApplication = getClientApplication(applicationId);
+        clientApplication.setApplicationStatus(applicationStatus);
+        List<ApplicationStatusHistory> historyList = clientApplication.getStatusHistoryList();
+        ApplicationStatusHistory applicationStatusHistory = ApplicationStatusHistory.builder()
+                .status(applicationStatus)
+                .time(LocalDateTime.now())
+                .changeType(ChangeType.AUTOMATIC)
+                .build();
+        historyList.add(applicationStatusHistory);
+        clientApplication.setStatusHistoryList(historyList);
+        clientApplication.setSignDate(LocalDate.now());
+        applicationRepository.save(clientApplication);
+        log.info("application saved to DB with updated status and statusHistory");
+    }
+
+    public void createAndSaveSES(Long applicationId) {
+        int ses = 1000 + (int) (Math.random()*9000);
+        log.info("ses created. ses: {}", ses);
+        ClientApplication clientApplication = getClientApplication(applicationId);
+        clientApplication.setSes_code(ses);
+        applicationRepository.save(clientApplication);
+        log.info("ses saved to db");
+    }
+
+    public boolean checkSesCode(Long applicationId, int code) {
+        log.info("checkSesCode started");
+        ClientApplication clientApplication = getClientApplication(applicationId);
+        if (clientApplication.getSes_code() == code) {
+            log.info("successful check code");
+            return true;
+        } else {
+            log.info("wrong code");
+            return false;
+        }
+    }
+
+    public void updateCredit(Long applicationId, CreditStatus creditStatus) {
+        log.info("updateCredit started");
+        ClientApplication clientApplication = getClientApplication(applicationId);
+        Long creditId = clientApplication.getCredit().getCreditID();
+        Optional<Credit> creditOptional = creditRepository.findById(creditId);
+        if (creditOptional.isEmpty()) {
+            throw new RuntimeException(String.format("incorrect creditId in application %d ", applicationId));
+        }
+        log.info("credit found in DB");
+        Credit credit = creditOptional.get();
+        credit.setCreditStatus(creditStatus);
+        creditRepository.save(credit);
+        log.info("credit saved with updated status");
     }
 }
