@@ -33,6 +33,8 @@ public class KafkaConsService {
     String linkSignDocReq;
     @Value("${approveDoc.url}")
     String linkApproveDoc;
+    @Value("${denyDoc.url}")
+    String linkDenyDic;
 
 
     @KafkaListener(id = "consGroup1", topics = {"finish-registration"}, containerFactory = "singleFactory")
@@ -59,7 +61,7 @@ public class KafkaConsService {
         List<String> listFileNames = filesCreatingService.createFiles(clientApplication);
         feignServiceDeal.updateClientApplicationStatus(emailMessage.getApplicationID(), ApplicationStatus.DOCUMENT_CREATED);
         defaultEmailService.sendEmailWithAttachment(emailMessage.getAddress(), emailMessage.getThemeEmail().getTitle(),
-                String.format(" Now you should send signing document request(application №%d) by the following link " + linkSignDocReq, emailMessage.getApplicationID()),
+                String.format(" Now you should send signing document request(application №%d) by the following link " + linkSignDocReq + "  Or you may deny using link " + linkDenyDic, emailMessage.getApplicationID()),
                 listFileNames.get(0), listFileNames.get(1), listFileNames.get(2));
     }
 

@@ -66,7 +66,7 @@ public class DealController {
         dealService.checkApplicationStatus(applicationID);
         log.info("ApplicationStatus checked and corrected in case of previous validate error");
 
-       CreditDTO responseCreditDTO = feignServiceConveyor.getCreditDTO(scoringDataDTO, applicationID);
+        CreditDTO responseCreditDTO = feignServiceConveyor.getCreditDTO(scoringDataDTO, applicationID);
         log.info("ResponseEntity<CreditDTO> received to DealController");
         dealService.saveCredit(responseCreditDTO, applicationID);
         EmailMessage emailMessage = dealService.createEmail(ThemeEmail.CREATE_DOCUMENT, applicationID);
@@ -105,6 +105,15 @@ public class DealController {
         kafkaSendService.send(emailMessage);
     }
 
+    @PostMapping("/document/{applicationId}/deny")
+    @ApiOperation(value = "deny documents signing")
+    public void denyApplication(@PathVariable Long applicationId) {
+        log.info("deny documents request received, applicationId: {}", applicationId);
+        dealService.denyApp(applicationId);
+        EmailMessage emailMessage = dealService.createEmail(ThemeEmail.APPLICATION_DENIED, applicationId);
+        kafkaSendService.send(emailMessage);
+    }
+
     @PostMapping("/document/{applicationId}/sign")
     @ApiOperation(value = "requesting documents signing")
     public void signRequestDocuments(@PathVariable Long applicationId) {
@@ -130,6 +139,12 @@ public class DealController {
     @ApiOperation(value = "getting client application")
     public ClientApplication getClientApplication(@PathVariable Long applicationId) {
         return dealService.getClientApplication(applicationId);
+    }
+
+    @GetMapping("/admin/application")
+    @ApiOperation(value = "getting all client applications")
+    public List<ClientApplication> getAllClientApplications() {
+        return dealService.getAllClientApplications();
     }
 
     @PutMapping("/admin/application/{applicationId}/status")
